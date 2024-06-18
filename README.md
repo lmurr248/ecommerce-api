@@ -5,7 +5,7 @@
 This app is an e-commerce API where you can:
 
 - Register & login
-- View products and add products to the car
+- View products and add products to the cart
 - Submit orders
 
 ## Testing the app
@@ -35,7 +35,7 @@ SESSION_SECRET='your secret'
   "email": "demo@user.com",
   "password": "demo"
 }`
-- Once logged in you can interact with the api.
+- Once logged in you can interact with the api. Use the API documentation to interact with the app.
 
 ## Tech
 
