@@ -5,12 +5,13 @@ const pool = require("../db");
 
 module.exports = class CartModel {
   // CREATE A NEW CART
-  async createCart(userId) {
+  async createCart(userid) {
     try {
-      const data = { userId, ...this };
+      const created = new Date().toISOString();
+      const modified = created;
+      const data = { userid, created, modified };
 
-      const statement =
-        pgp.helpers.insert(data, null, "carts") + "RETURNING *";
+      const statement = pgp.helpers.insert(data, null, "carts") + "RETURNING *";
 
       const result = await pool.query(statement);
 

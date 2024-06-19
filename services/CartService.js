@@ -6,7 +6,7 @@ const CartModelInstance = new CartModel();
 
 module.exports = class CartService {
   async create(data) {
-    const { id } = data;
+    const { userId } = data;
 
     try {
       const Cart = new CartModel();

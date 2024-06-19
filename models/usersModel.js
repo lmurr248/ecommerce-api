@@ -54,10 +54,9 @@ module.exports = class UsersModel {
   // FIND USER BY ID
   async getUserById(id) {
     try {
-      const result = await pool.query("SELECT * FROM users WHERE id = $1", [
-        id,
-      ]);
-      return result.row[0];
+      const query = "SELECT * FROM users WHERE id = $1";
+      const result = await pool.query(query, [id]);
+      return result.rows[0];
     } catch (err) {
       throw err;
     }
