@@ -1,6 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
+
 const AuthService = require("../services/AuthService");
 const AuthServiceInstance = new AuthService();
 
@@ -28,7 +29,7 @@ module.exports = (app) => {
   passport.use(
     new LocalStrategy(
       {
-        usernameField: "email", // Use email as the username field
+        usernameField: "email", 
       },
       async (username, password, done) => {
         try {
@@ -36,9 +37,9 @@ module.exports = (app) => {
             email: username,
             password,
           });
-          return done(null, user); // Authentication success
+          return done(null, user); 
         } catch (error) {
-          return done(error, false); // Authentication failure
+          return done(error, false); 
         }
       }
     )

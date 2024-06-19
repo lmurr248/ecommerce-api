@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const AuthService = require("../services/AuthService");
 const AuthServiceInstance = new AuthService();
+const bcrypt = require("bcrypt");
 
 // Database queries for products
 module.exports = (app, passport) => {
@@ -20,11 +21,15 @@ module.exports = (app, passport) => {
         throw new Error("Email and password are required");
       }
 
+      // Hash and salt password
+      const saltRounds = 10;
+      const hash = await bcrypt.hash(password, saltRounds);
+
       const created = new Date().toISOString();
 
       const response = await AuthServiceInstance.registerUser({
         email,
-        password,
+        password: hash,
         name_first,
         name_last,
         created,

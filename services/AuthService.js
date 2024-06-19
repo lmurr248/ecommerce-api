@@ -3,6 +3,7 @@
 const createError = require("http-errors");
 const UsersModel = require("../models/usersModel");
 const UsersModelInstance = new UsersModel();
+const bcrypt = require("bcrypt");
 
 module.exports = class AuthService {
   async registerUser(data) {
@@ -24,7 +25,7 @@ module.exports = class AuthService {
   }
 
   async loginUser(data) {
-    const { email, password, last_login } = data;
+    const { email, password } = data;
     try {
       // Check if user exists
       const user = await UsersModelInstance.getUserByEmail(email);
@@ -34,8 +35,9 @@ module.exports = class AuthService {
         throw new createError.NotFound(`User with email ${email} not found`);
       }
 
-      // If password is incorrect
-      if (user.password !== password) {
+      // Check if password is correct
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
         throw new createError.Unauthorized("Incorrect email or password");
       }
 
@@ -47,6 +49,18 @@ module.exports = class AuthService {
       return user;
     } catch (error) {
       throw new createError.InternalServerError(error);
+    }
+  }
+
+  async getUserById(id) {
+    try {
+      const user = await UsersModelInstance.getUserById(id);
+      if (!user) {
+        throw new createError.NotFound(`User with id ${id} not found.`);
+      }
+      return user;
+    } catch (err) {
+      throw new createError.InternalServerError(err);
     }
   }
 };
